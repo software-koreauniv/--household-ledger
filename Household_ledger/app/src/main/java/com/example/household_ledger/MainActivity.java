@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference mPostReference;
 
+    int account = 0;
+
+    String income;
     String pay;
     String place;
     String memo;
@@ -43,6 +46,22 @@ public class MainActivity extends AppCompatActivity {
 
         //getFirebaseDatabase();
     }
+    /*
+    // income 입력시 
+    {
+        mPostReference = FirebaseDatabase.getInstance();
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+
+        FirebasePost = new FirebasePost(id, time, income, memo);
+        postValues.put(id, time, income, memo);
+
+        childUpdates.put("/id_list/" + time, postValues);
+        mPostReference.updateChildren(childUpdates);
+
+        account += Integer.parseInt(income);
+    }
+    */
 
     //데이터 송신
     public void postFirebaseDatabase(boolean add){
@@ -57,7 +76,11 @@ public class MainActivity extends AppCompatActivity {
         }
         childUpdates.put("/id_list/" + time, postValues);
         mPostReference.updateChildren(childUpdates);
+
+        // account -= Integer.parseInt(pay);
     }
+
+
 
     //데이터 수신
     public void getFirebaseDatabase(){
