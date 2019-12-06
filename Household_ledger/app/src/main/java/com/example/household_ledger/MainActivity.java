@@ -28,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
     String id;
 
+    int account = 0;
+
+    String income;
+
+
     String date;
     String timePayPlace;
     String paySum;
@@ -60,6 +65,22 @@ public class MainActivity extends AppCompatActivity {
 
         getFirebaseDatabase();
     }
+    /*
+    // income 입력시 
+    {
+        mPostReference = FirebaseDatabase.getInstance();
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+
+        FirebasePost = new FirebasePost(id, time, income, memo);
+        postValues.put(id, time, income, memo);
+
+        childUpdates.put("/id_list/" + time, postValues);
+        mPostReference.updateChildren(childUpdates);
+
+        account += Integer.parseInt(income);
+    }
+    */
 
     /*
     // 스케줄 뷰로 이동하는 함수(리스너)
@@ -99,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         }
         childUpdates.put("/id_list/" + date, postValues);
         mPostReference.updateChildren(childUpdates);
+
+        // account -= Integer.parseInt(pay);
     }
 
     //데이터 수신 + 화면 출력
