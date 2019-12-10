@@ -1,8 +1,5 @@
 package com.example.household_ledger;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +7,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     String income;
 
-
     String date;
     String timePayPlace;
     String paySum;
@@ -48,25 +46,55 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<String> arrayData = new ArrayList<String>();
 
 
+    //DB에서 데이터를 가져오는 어댑터
+    //CursorAdapter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //simple_list_item_1의 형태를 사용함
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        //리스트 뷰 적용
-        //짧게 클릭, 길게 클릭
-        ListView listView = (ListView) findViewById(R.id.db_list_view);
-        //리스트 형태 적용
-        listView.setAdapter(arrayAdapter);
+        //리스트뷰
+        ListView theListView = findViewById(R.id.mainListView);
+
+        //화면에 출력 준비
+        final ArrayList<Item> items = Item.getTestingList();
+
+        // btn 핸들 추가
+        items.get(0).setRequestBtnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "CUSTOM HANDLER FOR FIRST BUTTON", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //어댑터 만들기
+        final FoldingCellListAdapter adapter = new FoldingCellListAdapter(this, items);
+
+        // default 핸들 추가
+        adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "DEFAULT HANDLER FOR ALL BUTTONS", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        //리스트 뷰에 어댑터 설정하기
+        theListView.setAdapter(adapter);
+
         //짧게 클릭한 경우, 해당 날짜 디테일(미정)
-        //listView.setOnItemClickListener(onClickListener);
+        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                ((FoldingCell) view).toggle(false);
+                adapter.registerToggle(pos);
+            }
+        });
 
         getFirebaseDatabase();
     }
     /*
-    // income 입력시 
+    // income 입력시
     {
         mPostReference = FirebaseDatabase.getInstance();
         Map<String, Object> childUpdates = new HashMap<>();
@@ -116,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         if(add) {
             //FirebasePost클래스의 객체 post선언 (스트링 입력)
             FirebasePost post = new FirebasePost(id, date, timePayPlace, paySum);
-             postValues = post.toMap();
+            postValues = post.toMap();
         }
         childUpdates.put("/id_list/" + date, postValues);
         mPostReference.updateChildren(childUpdates);
@@ -199,10 +227,12 @@ public class MainActivity extends AppCompatActivity {
         return text;
     }
 
-    // 메뉴화면 전환 함수
+ /*   // 메뉴화면 전환 함수
     public void menu(View view)
     {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
+
+  */
 }
