@@ -164,11 +164,11 @@ public class MainActivity extends AppCompatActivity {
                     String key = postSnapshot.getKey();
                     FirebasePost get = postSnapshot.getValue(FirebasePost.class);
 
-                    //String[] info = {get.id, get.date, get.timePayPlace};
-                    //String Result = setTextLength(info[0],10) + setTextLength(info[1],10) + setTextLength(info[2],10);
+                    String[] info = {get.id, get.date, get.timePayPlace};
+                    String Result = setTextLength(info[0],10) + setTextLength(info[1],10) + setTextLength(info[2],10);
 
-                    String[] info = {get.timePayPlace};
-                    String Result = setTextLength(info[0],10);
+                    //String[] info = {get.timePayPlace};
+                    //String Result = setTextLength(info[0],10);
 
                     String Idnum = info[0];
                     //주소 저장
@@ -178,8 +178,8 @@ public class MainActivity extends AppCompatActivity {
                     arrayIndex.add(key);
                     Log.d("getFirebaseDatabase", "key: " + key);
                     Log.d("getFirebaseDatabase", "info: " + info[0]);
-                    //Log.d("getFirebaseDatabase", "info: " + info[1]);
-                    //Log.d("getFirebaseDatabase", "info: " + info[2]);
+                    Log.d("getFirebaseDatabase", "info: " + info[1]);
+                    Log.d("getFirebaseDatabase", "info: " + info[2]);
                     //Log.d("getFirebaseDatabase", "info: " + info[3]);
                     //Log.d("getFirebaseDatabase", "info: " + info[4]);
                 }
